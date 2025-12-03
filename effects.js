@@ -272,7 +272,7 @@ export class SpaceEnvironment {
 
     createAsteroid(zCenter, isInterceptor = false, targetPos = null, targetVel = null) {
         // More detailed mesh
-        const radius = isInterceptor ? 3 + Math.random() * 2 : 5 + Math.random() * 12;
+        const radius = isInterceptor ? 3 + Math.random() * 2 : 4 + Math.random() * 8;
         const detail = 1; 
         const geo = new THREE.IcosahedronGeometry(radius, detail);
         
@@ -336,8 +336,12 @@ export class SpaceEnvironment {
             
         } else {
             // Background drift
-            const x = (Math.random() - 0.5) * 350; 
-            const y = -80 - Math.random() * 200; 
+            // Avoid center channel to prevent camera clipping
+            let x = (Math.random() - 0.5) * 500; 
+            if (Math.abs(x) < 50) x += (x > 0 ? 50 : -50);
+
+            // Push background much deeper
+            const y = -300 - Math.random() * 400; 
             const z = zCenter + (Math.random() - 0.5) * this.chunkSize;
             
             mesh.position.set(x, y, z);
@@ -379,7 +383,8 @@ export class SpaceEnvironment {
             
             const angle = Math.random() * Math.PI * 2;
             const r = Math.random() * 60; 
-            const yOffset = -15 - Math.random() * 120; 
+            // Push spawn point lower to avoid camera clipping
+            const yOffset = -60 - Math.random() * 150; 
             
             wrapper.mesh.position.set(
                 centerPos.x + Math.cos(angle) * r,
@@ -394,7 +399,8 @@ export class SpaceEnvironment {
                 (Math.random()-0.5) * 2
             );
             
-            const s = 1.5 + Math.random() * 1.5;
+            // Reduced scale to prevent massive asteroids
+            const s = 1.0 + Math.random() * 1.0;
             wrapper.mesh.scale.set(s, s, s);
             wrapper.radius *= s;
             
