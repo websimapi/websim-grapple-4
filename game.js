@@ -180,11 +180,6 @@ export class Game {
         this.fallVelocity = this.car.direction.clone().multiplyScalar(20);
         this.fallVelocity.y = -10;
 
-        // Populate the void below with visible hazards for the clip
-        if (this.spaceEnvironment) {
-            this.spaceEnvironment.spawnAsteroidField(this.car.position);
-        }
-
         if (this.engineSound.isPlaying) this.engineSound.stop();
     }
 
